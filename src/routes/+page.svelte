@@ -54,6 +54,17 @@
 		}
 	}
 
+	async function unsubscribeUser() {
+		if ('serviceWorker' in navigator) {
+			const registration = await navigator.serviceWorker.ready;
+			const subscription = await registration.pushManager.getSubscription();
+			if (subscription) {
+				await subscription.unsubscribe();
+				isSubscribed = false;
+			}
+		}
+	}
+
 	async function checkSubscriptionStatus() {
 		console.log('serviceWorker in checkSubscriptionStatus', 'serviceWorker' in navigator);
 
@@ -99,6 +110,9 @@
 	<h3>
 		Is subscribed: { isSubscribed }
 	</h3>
+
+	<button on:click={unsubscribeUser}> Unsubscribe </button>
+
 </section>
 
 <style>
