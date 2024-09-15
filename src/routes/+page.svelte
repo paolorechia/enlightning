@@ -30,6 +30,13 @@
 		});
 	}
 
+	async function testNotification() {
+		const res = await fetch('/api/testSubscription', {method: "POST"});
+		console.log("Test notification response code", res.status);
+		const j = await res.json();
+		console.log("Test notification response:", j);
+	}
+
 	async function subscribeUser() {
 		console.log('serviceWorker in subscribeUser', 'serviceWorker' in navigator);
 		if ('serviceWorker' in navigator) {
@@ -112,6 +119,8 @@
 	</h3>
 
 	<button on:click={unsubscribeUser}> Unsubscribe </button>
+
+	<button on:click={testNotification}> Test Notification </button>
 
 </section>
 

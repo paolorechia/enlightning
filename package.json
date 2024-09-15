@@ -38,6 +38,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@block65/webcrypto-web-push": "^1.0.1",
     "@types/web-push": "^3.6.3",
     "web-push": "^3.6.7"
   }
