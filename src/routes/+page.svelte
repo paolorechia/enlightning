@@ -42,6 +42,10 @@
 					userVisibleOnly: true,
 					applicationServerKey: data
 				})
+				fetch('/api/createSubscription', {
+					body: JSON.stringify(subscription),
+					method: "POST",
+				})
 				isSubscribed = true;
 				console.log("subscription", JSON.stringify(subscription));
 			} catch (err) {
@@ -58,6 +62,12 @@
 			const registration = await navigator.serviceWorker.ready;
 			const subscription = await registration.pushManager.getSubscription();
 			console.log("subscription", JSON.stringify(subscription));
+			if (subscription !== null) {
+				fetch('/api/createSubscription', {
+					body: JSON.stringify(subscription),
+					method: "POST",
+				})
+			}
 			return subscription !== null;
 		}
 		return false;

@@ -1,10 +1,9 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 
 export async function GET({ request, locals, platform }) {
-    console.log("In Get", request);
+    console.log("In GET...")
+    let parsedBody = await request.json();
 
-    const DB = platform.env.DB;
-    console.log("Your D1 DB", DB);
-
+    console.log("Received data", parsedBody);
     return json({ "hello": "world"})
 }
