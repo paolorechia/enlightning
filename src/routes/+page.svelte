@@ -2,6 +2,8 @@
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 	import { onMount  } from 'svelte';
+	import { dev } from '$app/environment';
+
 
 	let isSubscribed = false;
 	let notifPermGranted = null;
@@ -9,10 +11,6 @@
 	onMount(async () => {
 		notifPermGranted = Notification.permission === 'granted';
 		console.log("notifPermGranted", notifPermGranted)
-		if (!notifPermGranted) {
-			requestNotificationPermission();
-		}
-
 		if (notifPermGranted) {
 			console.log("Checking status...")
 			isSubscribed = await checkSubscriptionStatus();
@@ -56,6 +54,7 @@
 		console.log('serviceWorker in checkSubscriptionStatus', 'serviceWorker' in navigator);
 
 		if ('serviceWorker' in navigator) {
+			console.log("Awaiting service worker to be ready...")
 			const registration = await navigator.serviceWorker.ready;
 			const subscription = await registration.pushManager.getSubscription();
 			console.log("subscription", JSON.stringify(subscription));
@@ -84,9 +83,8 @@
 		to your new<br />SvelteKit app
 	</h1>
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+	<button on:click={requestNotificationPermission}> Enable notifications </button>
+	<!-- <button on:click={subscribeUser}> Subscribe to push notifications </button> -->
 
 	<h3>
 		Is subscribed: { isSubscribed }
