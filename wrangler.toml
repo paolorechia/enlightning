@@ -83,3 +83,9 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "<PRODUCTION_NAMESPACE_ID>"
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "enlightning-db"
+database_id = "1fb1da95-f0e2-49ad-97b4-21a0d540229e"
+preview_database_id = "DB" # Required for Pages local development
