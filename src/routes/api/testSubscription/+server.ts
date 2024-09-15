@@ -33,7 +33,9 @@ export async function POST({ request, locals, platform }) {
         async (subscription) => {
             const payload = await buildPushPayload(
                 {
-                    data: "Hello push notification!",
+                    data: JSON.stringify({
+                        message: "Hello push notification!"
+                    }),
                     options: {ttl: 60},
                 },    
                 {
