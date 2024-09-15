@@ -36,5 +36,9 @@
     "vitest": "^2.0.0",
     "wrangler": "^3.78.2"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@types/web-push": "^3.6.3",
+    "web-push": "^3.6.7"
+  }
 }

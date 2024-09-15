@@ -1,7 +1,70 @@
-<script>
-	import Counter from './Counter.svelte';
+<script lang="ts">
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import { onMount  } from 'svelte';
+
+	let isSubscribed = false;
+	let notifPermGranted = null;
+
+	onMount(async () => {
+		notifPermGranted = Notification.permission === 'granted';
+		console.log("notifPermGranted", notifPermGranted)
+		if (!notifPermGranted) {
+			requestNotificationPermission();
+		}
+
+		if (notifPermGranted) {
+			console.log("Checking status...")
+			isSubscribed = await checkSubscriptionStatus();
+			console.log("Is Subscribed", isSubscribed);
+
+			if (!isSubscribed) {
+				await subscribeUser();
+			}
+		}
+	})
+
+	function requestNotificationPermission() {
+		Notification.requestPermission().then((permission) => {
+			if (permission === 'granted') {
+				new Notification('You are now subscribed to notifications!');
+			}
+		});
+	}
+
+	async function subscribeUser() {
+		console.log('serviceWorker in subscribeUser', 'serviceWorker' in navigator);
+		if ('serviceWorker' in navigator) {
+			try {
+				const res = await fetch('/api/vapidPubKey');
+				const { data } = await res.json();
+
+				const registration = await navigator.serviceWorker.ready;
+				const subscription = await registration.pushManager.subscribe({
+					userVisibleOnly: true,
+					applicationServerKey: data
+				})
+				isSubscribed = true;
+				console.log("subscription", JSON.stringify(subscription));
+			} catch (err) {
+				console.error('Error subscribing', err);
+			}		
+		}
+	}
+
+	async function checkSubscriptionStatus() {
+		console.log('serviceWorker in checkSubscriptionStatus', 'serviceWorker' in navigator);
+
+		if ('serviceWorker' in navigator) {
+			const registration = await navigator.serviceWorker.ready;
+			const subscription = await registration.pushManager.getSubscription();
+			console.log("subscription", JSON.stringify(subscription));
+			return subscription !== null;
+		}
+		return false;
+	}
+
+
 </script>
 
 <svelte:head>
@@ -25,7 +88,9 @@
 		try editing <strong>src/routes/+page.svelte</strong>
 	</h2>
 
-	<Counter />
+	<h3>
+		Is subscribed: { isSubscribed }
+	</h3>
 </section>
 
 <style>
