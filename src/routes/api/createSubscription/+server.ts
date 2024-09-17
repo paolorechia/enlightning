@@ -55,7 +55,7 @@ export async function POST({ request, locals, platform }) {
             VALUES (?1, ?2, ?3, ?4)     
     `).bind(
             parsedBody.endpoint,
-            parsedBody.expirationTime,
+            parsedBody.expirationTime? parsedBody.expiration_time : null,
             parsedBody.keys.auth,
             parsedBody.keys.p256dh
         ).run();

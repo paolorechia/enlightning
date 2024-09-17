@@ -54,7 +54,9 @@ export async function POST({ request, locals, platform }) {
                 const j = await res.json();                
                 console.log("webpush response body", j);    
             } catch (err) {
-                console.error(`error decoding JSON ${err}`)
+                console.log(`error decoding JSON ${err}`)
+                const text = await res.text()
+                console.log(`Text Response: ${text}`)
             }
 
             // see status code meaning list for Mozilla in:
