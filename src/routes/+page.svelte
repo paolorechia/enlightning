@@ -49,10 +49,17 @@
 					userVisibleOnly: true,
 					applicationServerKey: data
 				})
-				fetch('/api/createSubscription', {
+				const registerStatus = await fetch('/api/createSubscription', {
 					body: JSON.stringify(subscription),
 					method: "POST",
 				})
+				if (registerStatus.status !== 201) {
+					console.error("Could not register subscription");
+					const j = await registerStatus.json();
+					console.error(j);
+					isSubscribed = false;
+					return;
+				}
 				isSubscribed = true;
 				console.log("subscription", JSON.stringify(subscription));
 			} catch (err) {
