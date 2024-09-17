@@ -54,9 +54,9 @@
 					method: "POST",
 				})
 				if (registerStatus.status !== 201) {
-					console.error("Could not register subscription");
 					const j = await registerStatus.json();
 					console.error(j);
+					alert("Could not register subscription")
 					isSubscribed = false;
 					return;
 				}
