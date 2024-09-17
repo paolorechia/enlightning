@@ -53,7 +53,7 @@
 					body: JSON.stringify(subscription),
 					method: "POST",
 				})
-				if (registerStatus.status !== 201) {
+				if (registerStatus.status !== 200) {
 					const j = await registerStatus.json();
 					console.error(j);
 					alert("Could not register subscription")
