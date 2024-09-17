@@ -114,6 +114,8 @@
 	<button on:click={requestNotificationPermission}> Enable notifications </button>
 	<!-- <button on:click={subscribeUser}> Subscribe to push notifications </button> -->
 
+	<button on:click={subscribeUser} disabled={isSubscribed}> Subscribe </button>
+
 	<h3>
 		Is subscribed: { isSubscribed }
 	</h3>
