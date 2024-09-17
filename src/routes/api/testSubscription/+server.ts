@@ -50,14 +50,8 @@ export async function POST({ request, locals, platform }) {
             );
             const res = await fetch(subscription.endpoint, payload);
             console.log("webpush response status", res.status)
-            try {
-                const j = await res.json();                
-                console.log("webpush response body", j);    
-            } catch (err) {
-                console.log(`error decoding JSON ${err}`)
-                const text = await res.text()
-                console.log(`Text Response: ${text}`)
-            }
+            const text = await res.text()
+            console.log(`Text Response: ${text}`)
 
             // see status code meaning list for Mozilla in:
             // https://autopush.readthedocs.io/en/latest/http.html#error-codes
